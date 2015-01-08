@@ -7,6 +7,6 @@ In all other cases, body will contain an error message describing what went wron
 
 To correctly access foodtruck finder, one must type in the url for the server followed by a query string consisting of three floats: lat, lon, and radius (ex: https://nameless-bastion-3232.herokuapp.com/?lat=37.79&lon=-122.4&radius=300). 
 
-lat and lon are the client's latitude and longitude, and radius is the farthest distance as the crow flies that the client would go to a foodtruck. A json for each foodtruck in radius of position (lat, long) will be returned in the body field of the json.
+lat and lon are the client's latitude and longitude, and radius is the farthest distance as the crow flies that the client would go to a foodtruck.
 
 Foodtruck Finder is hosted on heroku, and its base url is https://nameless-bastion-3232.herokuapp.com
