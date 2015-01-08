@@ -38,4 +38,6 @@ def notFound(error=None):
 def internalError(error=None):
 	response = jsonify({'status': 500, 'body':'Internal error'})
 
-if __name__ == "__main__": app.run(threaded=True)
+if __name__ == "__main__": 
+	port = int(os.environ.get("PORT", 5000))
+	app.run(host='0.0.0.0', port=port, threaded=True)
