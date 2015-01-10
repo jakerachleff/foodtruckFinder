@@ -1,5 +1,13 @@
 #Foodtruck Finder API
 
+##Client Access of Nearby Locations
+
+To access nearby locations, the client must provide three pieces of information: latitude, longitude, and radius. Radius refers to the maximum distance (as the crow flies) the client would travel to find a food truck. All requests must be sent to a url with a valid query string in the following format:
+
+	"http://nameless-bastion-3232.herokuapp.com/?lat=<lat>&lon=<lon>&radius=<radius>"
+
+##API JSON Response
+
 The Foodtruck Finder Application returns a json with two fields: status and body.
 
 ###Status
