@@ -18,7 +18,7 @@ Status contains the HTTP status code (200, 400, 404, or 500).
 
 ####Body
 
-Body contains one of two things: an error message, or a list of json entries to DataSF's database of foodtrucks in San Francisco
+If the HTTP status code is 200, body contains a list of json entries to DataSF's database of foodtrucks within radius meters of the client. If the HTTP status code is not 200, then body contains a short error message. For example, if a variable is left out of the query string, body will contain a string that reads "malformed query string."
 
 ######Error Message
 
