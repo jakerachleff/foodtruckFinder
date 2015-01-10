@@ -22,7 +22,7 @@ Body contains one of two things: an error message or a list of json entries to t
 
 When the HTTP status code is not 200, body contains a short error message describing what went wrong.
 
-#######Database Entries
+######Database Entries
 
 Each entry in the list will have the following fields:
 
