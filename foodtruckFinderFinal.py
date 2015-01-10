@@ -22,7 +22,7 @@ def serverRequested():
 		response.status_code = 400
 		return response
 
-	if(!checkValidLatLon(lat, lon)):
+	if not checkValidLatLon(lat, lon):
 		return jsonify({'status': 400, 'body':"Latitude and longitude not in valid range"})
 
 	queryURL = "https://data.sfgov.org/resource/rqzj-sfat.json?$where=within_circle(location, %f, %f, %f)" % (lat, lon, radius)
@@ -43,7 +43,7 @@ def internalError(error=None):
 	response = jsonify({'status': 500, 'body':'Internal error'})
 
 def checkValidLatLon(lat, lon):
-	if((-90 <= lat <= 90) && (-180 <= lon <= 180)):
+	if((-90 <= lat <= 90) and (-180 <= lon <= 180)):
 		return True
 	return False
 
