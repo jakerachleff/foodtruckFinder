@@ -6,6 +6,7 @@ def main():
 	wellFormedTest()
 	wrongPathTest()
 	nonFloatLatLongRadiusTest()
+	emptyQueryTest()
 
 def wellFormedTest():
 	print("Running test of well-formed query")
@@ -20,8 +21,7 @@ def wellFormedTest():
 def wrongPathTest():
 	print("Running test of requesting a non existant path")
 	wrongPathResponse = jsonOpenURL("http://nameless-bastion-3232.herokuapp.com/badpath/")
-	print("Expected Status: 404\nActual Status: %d") % wrongPathResponse['status']
-	print("Expected Body: Page not found\nActual Body: %s\n") % wrongPathResponse['body']
+	printExpectedVsActual(404, wrongPathResponse['status'], "Page not found", wrongPathResponse['body'])
 
 def nonFloatLatLongRadiusTest():
 	print("Running test of non numeric lat, long, and radius")
@@ -39,8 +39,16 @@ def testMalformedInputs(lat, lon, radius, error):
 	url = "http://nameless-bastion-3232.herokuapp.com/?lat=%s&lon=%s&radius=%s" % (lat, lon, radius)
 	print("Running test where lat=%s, lon=%s, radius=%s") % (lat, lon, radius)
 	malformedQueryResponse = jsonOpenURL(url)
-	print("Expected Status: 400\nActual Status: %d") % malformedQueryResponse['status']
-	print("Expected Body: %s\nActual Body: %s\n") % (error, malformedQueryResponse['body'])
+	printExpectedVsActual(400, malformedQueryResponse['status'], error, malformedQueryResponse['body'])
+
+def printExpectedVsActual(expStatus, acStatus, expMsg, acMsg):
+	print("Expected Status: %d\nActual Status: %d") % (expStatus, acStatus)
+	print("Expected Body: %s\nActual Body: %s\n") % (expMsg, acMsg)
+
+def emptyQueryTest():
+	print("Running test of url with no query string")
+	emptyQuery = jsonOpenURL("http://nameless-bastion-3232.herokuapp.com")
+	printExpectedVsActual(400, emptyQuery['status'], "No query string", emptyQuery['body'])
 
 def jsonOpenURL(url):
 	jsonurl = urllib.urlopen(url)

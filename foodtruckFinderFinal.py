@@ -1,5 +1,6 @@
 import os
 import urllib
+from urlparse import urlparse
 import json
 from flask import Flask
 from flask import jsonify
@@ -9,6 +10,10 @@ app = Flask(__name__)
 
 @app.route('/')
 def serverRequested():
+	parsedURL = urlparse(request.url)
+	if parsedURL.query == "":
+		return getErrorResponse(400, "No query string")
+
 	lat = request.args.get('lat')
 	lon = request.args.get('lon')
 	radius = request.args.get('radius')
@@ -18,12 +23,10 @@ def serverRequested():
 		lon = float(lon)
 		radius = float(radius)
 	except:
-		response = jsonify({'status': 400, 'body':'Malformed query string'})
-		response.status_code = 400
-		return response
+		return getErrorResponse(400, "Malformed query string")
 
 	if not checkValidLatLon(lat, lon):
-		return jsonify({'status': 400, 'body':"Latitude and longitude not in valid range"})
+		return getErrorResponse(400, "Latitude and longitude not in valid range")
 
 	queryURL = "https://data.sfgov.org/resource/rqzj-sfat.json?$where=within_circle(location, %f, %f, %f)" % (lat, lon, radius)
 	jsonurl = urllib.urlopen(queryURL)
@@ -34,13 +37,16 @@ def serverRequested():
 
 @app.errorhandler(404)
 def notFound(error=None):
-	response = jsonify({'status': 404, 'body':'Page not found'})
-	response.status_code = 404
-	return response
+	return getErrorResponse(404, "Page not found")
 
 @app.errorhandler(500)
 def internalError(error=None):
-	response = jsonify({'status': 500, 'body':'Internal error'})
+	return getErrorResponse(500, "Internal server error")
+
+def getErrorResponse(status, msg):
+	response = jsonify({'status': status, 'body': msg})
+	response.status_code = status
+	return response
 
 def checkValidLatLon(lat, lon):
 	if((-90 <= lat <= 90) and (-180 <= lon <= 180)):
